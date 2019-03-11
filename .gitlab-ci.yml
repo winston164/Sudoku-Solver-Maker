@@ -171,6 +171,8 @@ Coding style checking (5%):
     - git checkout $SHA
   script:
     - bash ./.scripts/style.sh
+  after_script:
+    - curl https://pd2a.imslab.org/updateGrade?token=$TOKEN
   allow_failure: true
   except:
     - pushes
