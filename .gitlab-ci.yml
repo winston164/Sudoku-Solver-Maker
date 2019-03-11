@@ -16,6 +16,7 @@ Build with Makefile (5%):
     - make
     - "[[ -e generate && -e transform && -e solve ]]"
   after_script:
+    - source platform_env
     - curl https://pd2a.imslab.org/updateGrade?token=$TOKEN
   artifacts:
     paths:
@@ -174,6 +175,7 @@ Coding style checking (5%):
   script:
     - bash ./.scripts/style.sh
   after_script:
+    - source platform_env
     - curl https://pd2a.imslab.org/updateGrade?token=$TOKEN
   allow_failure: true
   except:
