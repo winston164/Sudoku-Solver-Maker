@@ -241,7 +241,8 @@ int Sudoku::solve(){
 //Generate------------------------------------------------------
 
 Sudoku Sudoku::generate(){
-    
+    Sudoku su;
+    return su;
 }
 
 
