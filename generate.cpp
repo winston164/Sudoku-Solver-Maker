@@ -1,6 +1,18 @@
-int main()
-{
-    // finish your generate code...
+#include <iostream>
+#include "sudoku.h"
+#include <vector>
+using namespace std;
 
-    return 0;
+int main(){
+    vector<int> vec;
+    Sudoku su;
+    su = su.generate();
+    vec = su.getMtrx();
+    for(int i = 0; i < 81; ++i){
+        cout << vec.at(i) << ' ';
+        if((i % 9) == 8)
+            cout << endl;
+    }
+
+    return 0; 
 }
