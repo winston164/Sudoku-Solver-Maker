@@ -47,9 +47,13 @@ int main(){
             case 0:
                 vec = su.getMtrx();
                 for(int i = 0; i < 81; ++i){
-                    cout << vec.at(i) << ' ';
-                    if((i%9) == 8)
+                    cout << vec.at(i);
+                    if((i%9) == 8){
                         cout << endl;
+                    }else
+                    {
+                        cout << ' ';
+                    }     
                 }
                 return 0;
                 break;

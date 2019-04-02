@@ -14,14 +14,21 @@ int main()
         vec.push_back(n);
     }
     su.setMtrx(vec);
-    cout << su.solve() << endl;
+    n = su.solve();
     vec = su.getMtrx();
 
-    for(int i = 0; i < 81; ++i){
-        cout << vec.at(i) << ' ';
-        if((i%9) == 8)
-        cout << endl;
-    }
+    cout << n << endl;
+    if(n == 1)
+        for(int i = 0; i < 81; ++i){
+            cout << vec.at(i);
+            if((i%9) == 8){
+                cout << endl;
+            }else
+            {
+                cout << ' ';
+            }
+        
+        }
         
     return 0;
 }
