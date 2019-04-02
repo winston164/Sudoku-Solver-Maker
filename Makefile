@@ -1,4 +1,4 @@
-solve: sudoku.o solve.o
+solve: sudoku.o solve.o transform generate
 	g++ -o solve sudoku.o solve.o
 
 transform: sudoku.o transform.o
