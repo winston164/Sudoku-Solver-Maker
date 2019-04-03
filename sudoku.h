@@ -7,19 +7,18 @@ using namespace std;
  * You can modify this file if needed.             *
  ***************************************************/
 
-class Sudoku
-{
-public:
+class Sudoku {
+  public:
     Sudoku();
-    
+
     // Get Matrix
     vector<int> getMtrx();
 
     //Set Matrix
     void setMtrx(vector<int> vec);
-    
+
     // generate
-    static Sudoku generate();
+    void generate();
 
     // transform
     void swapNum(int x, int y);
@@ -31,7 +30,9 @@ public:
     // solve
     int solve();
 
-private:
+  private:
+    int generate(vector<struct cell> & vecRef);
+    bool cellValid(int x, int y);
     int solve(vector<struct cell> & vecRef);
     vector<struct cell> findClueGrid();
     vector<int> cellVals(int x, int y);

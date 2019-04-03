@@ -3,13 +3,12 @@
 #include "sudoku.h"
 using namespace std;
 
-int main()
-{
+int main() {
     Sudoku su;
     vector<int> vec;
     int n = 0;
-    
-    for(int i = 0; i < 81; i++){
+
+    for(int i = 0; i < 81; i++) {
         cin >> n;
         vec.push_back(n);
     }
@@ -19,16 +18,15 @@ int main()
 
     cout << n << endl;
     if(n == 1)
-        for(int i = 0; i < 81; ++i){
+        for(int i = 0; i < 81; ++i) {
             cout << vec.at(i);
-            if((i%9) == 8){
+            if((i%9) == 8) {
                 cout << endl;
-            }else
-            {
+            } else {
                 cout << ' ';
             }
-        
+
         }
-        
+
     return 0;
 }
