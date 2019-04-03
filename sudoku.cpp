@@ -374,7 +374,7 @@ void Sudoku::swapNum(int x, int y) {
         for(int j = 0; j < 9; ++j) {
             if(mtrx[i][j] == x)
                 mtrx[i][j] = y;
-            if(mtrx[i][j] == y)
+            else if(mtrx[i][j] == y)
                 mtrx[i][j] = x;
         }
 }
