@@ -31,7 +31,7 @@ void Sudoku::setMtrx(vector<int> vec) {
     int k = 0;
     for(int i = 0; i < 9; ++i)
         for(int j = 0; j < 9; ++j)
-            mtrx[j][i] = vec.at(k++);
+            mtrx[j][i] = vec[k++];
 }
 
 
@@ -72,10 +72,10 @@ vector<int> Sudoku::cellVals(int x, int y) { //x and y values should be recieved
     }
     for(i = 0; i < 9 ; ++i) {
         if(compAr[i] == 1) {
-            vec.at(i + 1) = i + 1;
-            ++vec.at(0);
+            vec[i + 1] = i + 1;
+            ++vec[0];
         } else
-            vec.at(i + 1) = 0;
+            vec[i + 1] = 0;
     }
 
     return vec;
@@ -95,7 +95,7 @@ vector<struct cell> Sudoku::findClueGrid() {
                 aux.solved = true;
                 aux.cands = empty;
             }
-            grid.at((i*9) + j) = aux;
+            grid[(i*9) + j] = aux;
         }
     return grid;
 }
@@ -104,16 +104,16 @@ vector<struct cell> updateGrid(int x, int y, int val, vector<struct cell> vec) {
     int i;
     //row column modify
     for(i = 0; i < 9; ++i) {
-        struct cell & ref1 = vec.at((9*y) + i);
-        if((!ref1.solved) && (ref1.cands.at(val) != 0)) {
-            ref1.cands.at(val) = 0;
-            --ref1.cands.at(0);
+        struct cell & ref1 = vec[(9*y) + i];
+        if((!ref1.solved) && (ref1.cands[val] != 0)) {
+            ref1.cands[val] = 0;
+            --ref1.cands[0];
         }
 
-        struct cell & ref2 = vec.at((9*i) + x);
-        if((!ref2.solved) && (ref2.cands.at(val) != 0)) {
-            ref2.cands.at(val) = 0;
-            --ref2.cands.at(0);
+        struct cell & ref2 = vec[(9*i) + x];
+        if((!ref2.solved) && (ref2.cands[val] != 0)) {
+            ref2.cands[val] = 0;
+            --ref2.cands[0];
         }
     }
 
@@ -124,10 +124,10 @@ vector<struct cell> updateGrid(int x, int y, int val, vector<struct cell> vec) {
     ky = y -(y%3);
     for(i = kx; i < (kx + 3); ++i) {
         for(j = ky; j < (ky + 3); j++) {
-            struct cell & ref = vec.at((9*j) + i);
-            if((!ref.solved) && (ref.cands.at(val) != 0)) {
-                ref.cands.at(val) = 0;
-                --ref.cands.at(0);
+            struct cell & ref = vec[(9*j) + i];
+            if((!ref.solved) && (ref.cands[val] != 0)) {
+                ref.cands[val] = 0;
+                --ref.cands[0];
             }
         }
     }
@@ -143,10 +143,10 @@ int Sudoku::solve(vector<struct cell> & vecRef) {
     int cands = 20;
     int cellNum = 0;
     for(int i = 0; i < 81; ++i) {
-        struct cell & cellRef = vecRef.at(i);
+        struct cell & cellRef = vecRef[i];
         if(!(cellRef.solved))
-            if(cellRef.cands.at(0) < cands) {
-                cands = cellRef.cands.at(0);
+            if(cellRef.cands[0] < cands) {
+                cands = cellRef.cands[0];
                 cellNum = i;
             }
     }
@@ -158,17 +158,17 @@ int Sudoku::solve(vector<struct cell> & vecRef) {
     }
 
     int res = 0, cand = 1, candF;
-    struct cell & cellRef = vecRef.at(cellNum);
+    struct cell & cellRef = vecRef[cellNum];
     cellRef.solved = true;
     do {
         if(cand < 10)
-            if(cellRef.cands.at(cand) != 0 ) {
+            if(cellRef.cands[cand] != 0 ) {
                 vector<struct cell> newVec(updateGrid(
                                                (cellNum%9),
                                                (cellNum/9),
-                                               cellRef.cands.at(cand),
+                                               cellRef.cands[cand],
                                                vecRef));
-                cellRef.cands.at(cand) = 0;
+                cellRef.cands[cand] = 0;
                 if(res < 1) candF = cand;
                 res += solve(newVec);
             }
@@ -288,10 +288,10 @@ int Sudoku::generate(vector<struct cell> & vecRef) {
     int cands = 20;
     int cellNum = 0;
     for(int i = 0; i < 81; ++i) {
-        struct cell & cellRef = vecRef.at(i);
+        struct cell & cellRef = vecRef[i];
         if(!(cellRef.solved))
-            if(cellRef.cands.at(0) < cands) {
-                cands = cellRef.cands.at(0);
+            if(cellRef.cands[0] < cands) {
+                cands = cellRef.cands[0];
                 cellNum = i;
             }
     }
@@ -303,17 +303,17 @@ int Sudoku::generate(vector<struct cell> & vecRef) {
     }
 
     int res = 0, cand = 1, candF;
-    struct cell & cellRef = vecRef.at(cellNum);
+    struct cell & cellRef = vecRef[cellNum];
     cellRef.solved = true;
     do {
         if(cand < 10)
-            if(cellRef.cands.at(cand) != 0 ) {
+            if(cellRef.cands[cand] != 0 ) {
                 vector<struct cell> newVec(updateGrid(
                                                (cellNum%9),
                                                (cellNum/9),
-                                               cellRef.cands.at(cand),
+                                               cellRef.cands[cand],
                                                vecRef));
-                cellRef.cands.at(cand) = 0;
+                cellRef.cands[cand] = 0;
                 if(res < 1) candF = cand;
                 res += generate(newVec);
             }
