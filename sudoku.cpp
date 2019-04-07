@@ -173,7 +173,7 @@ int Sudoku::solve(vector<struct cell> & vecRef) {
                 res += solve(newVec);
             }
         ++cand;
-    } while((res < 2) && (cand < 10));
+    } while((res < 1) && (cand < 10));
 
     if(res == 0) return 0;
 
