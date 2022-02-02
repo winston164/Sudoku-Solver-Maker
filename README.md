@@ -1,4 +1,7 @@
 # pd2-sudoku
+Generate/Transform/Solve Sudokus.
+To compile you may run `make`, it uses the gcc compiler. 
+
 ## Input / Output
 ### Generate
 1. Output sudoku problem when execution
@@ -70,6 +73,8 @@ $ ./transform
 ```shell=
 ## Unsolvable
 0
+```
+```shell=
 ## Solved
 1
 3 7 2 1 4 5 6 9 8
@@ -81,6 +86,8 @@ $ ./transform
 7 1 9 8 5 3 4 2 6
 2 8 3 9 6 4 1 7 5
 4 6 5 7 2 1 3 8 9
+```
+```shell=
 ## Multiple answer
 2
 ```
