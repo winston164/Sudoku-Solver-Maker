@@ -1,4 +1,4 @@
-# pd2-sudoku
+# Sudoku Genie
 Generate/Transform/Solve Sudokus.
 To compile you may run `make`, it uses the gcc compiler. 
 
