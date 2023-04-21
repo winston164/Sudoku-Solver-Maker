@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
 
 type SudokuMatrix = number[][];
 
@@ -19,15 +19,26 @@ const initialMatrix: SudokuMatrix = [
 
 function App() {
   const [matrix] = useState<SudokuMatrix>(initialMatrix);
+  const [highlightedCell, setHighlightedCell] = useState<number[]>([]);
 
-  const renderRow = (row: number[]) => {
+  const renderRow = (row: number[], rowIndex: number) => {
     return (
-      <div className="sudoku-row">
-        {row.map((cell, index) => (
-          <div key={index} className="sudoku-cell">
-            {cell === 0 ? "" : cell}
-          </div>
-        ))}
+      <div className="sudoku-row" key={rowIndex}>
+        {row.map((cell, cellIndex) => {
+          const isHighlighted =
+            highlightedCell[0] === rowIndex || highlightedCell[1] === cellIndex;
+          const cellClass = `sudoku-cell${isHighlighted ? ' highlighted' : ''}`;
+          return (
+            <div
+              key={cellIndex}
+              className={cellClass}
+              onMouseEnter={() => setHighlightedCell([rowIndex, cellIndex])}
+              onMouseLeave={() => setHighlightedCell([])}
+            >
+              {cell === 0 ? '' : cell}
+            </div>
+          );
+        })}
       </div>
     );
   };
@@ -36,7 +47,7 @@ function App() {
     return (
       <div className="sudoku">
         {matrix.map((row, index) => (
-          <div key={index}>{renderRow(row)}</div>
+          <div key={index}>{renderRow(row, index)}</div>
         ))}
       </div>
     );
