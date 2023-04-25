@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import './App.css';
 
-// Define a type alias for a Sudoku matrix 2D
+// Define a type alias for a Sudoku 2D matrix 
 type SudokuMatrix = number[][];
 
-// Define an initial Sudoku matrix
+// Define an initial matrix
 const initialSudokuMatrix: SudokuMatrix = [
   [0, 0, 0, 6, 7, 8, 9, 1, 2],
   [0, 0, 0, 1, 9, 5, 3, 4, 8],
