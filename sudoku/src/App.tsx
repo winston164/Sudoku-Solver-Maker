@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import SudokuBoard from './SudokuBoard';
 import NumberPad from './NumberPad';
+import './App.css'
 
 const App: FC = () => {
   const [matrix, setMatrix] = useState<number[][]>([

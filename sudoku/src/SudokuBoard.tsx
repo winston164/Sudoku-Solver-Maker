@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { Grid } from '@material-ui/core';
-import './App.css'
 
 interface SudokuBoardProps {
   matrix: number[][];
