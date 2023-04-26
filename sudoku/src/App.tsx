@@ -1,68 +1,39 @@
-import { useState } from 'react';
-import './App.css';
+import { FC, useState } from 'react';
+import { Container, Grid } from '@material-ui/core';
+import SudokuBoard from './SudokuBoard';
+import NumberPad from './NumberPad';
 
-// Define a type alias for a Sudoku 2D matrix 
-type SudokuMatrix = number[][];
+const App: FC = () => {
+  const [matrix, setMatrix] = useState<number[][]>([
+    [5, 3, 0, 0, 7, 0, 0, 0, 0],
+    [6, 0, 0, 1, 9, 5, 0, 0, 0],
+    [0, 9, 8, 0, 0, 0, 0, 6, 0],
+    [8, 0, 0, 0, 6, 0, 0, 0, 3],
+    [4, 0, 0, 8, 0, 3, 0, 0, 1],
+    [7, 0, 0, 0, 2, 0, 0, 0, 6],
+    [0, 6, 0, 0, 0, 0, 2, 8, 0],
+    [0, 0, 0, 4, 1, 9, 0, 0, 5],
+    [0, 0, 0, 0, 8, 0, 0, 7, 9],
+  ]);
 
-// Define an initial matrix
-const initialSudokuMatrix: SudokuMatrix = [
-  [0, 0, 0, 6, 7, 8, 9, 1, 2],
-  [0, 0, 0, 1, 9, 5, 3, 4, 8],
-  [0, 0, 0, 3, 4, 2, 5, 6, 7],
-  [8, 5, 9, 7, 6, 1, 4, 2, 3],
-  [4, 2, 6, 8, 5, 3, 7, 9, 1],
-  [7, 1, 3, 9, 2, 4, 8, 5, 6],
-  [9, 6, 1, 5, 3, 7, 2, 8, 4],
-  [2, 8, 7, 4, 1, 9, 6, 3, 5],
-  [3, 4, 5, 2, 8, 6, 1, 7, 9]
-];
-
-function App() {
-  // Define a state variable for the Sudoku matrix
-  const [sudokuMatrix] = useState<SudokuMatrix>(initialSudokuMatrix);
-  // Define a state variable for the highlighted cell
-  const [highlightedCell, setHighlightedCell] = useState<[number, number]>([-1, -1]);
-
-  // Define a function that renders a row of cells in the Sudoku grid
-  const renderRow = (row: number[], rowIndex: number) => {
-    return (
-      <div className="sudoku-row" key={rowIndex}>
-        {row.map((cell, cellIndex) => {
-          // Check if the cell is highlighted
-          const isCellHighlighted = highlightedCell[0] === rowIndex || highlightedCell[1] === cellIndex;
-          // Define the class name for the cell
-          const cellClassName = `sudoku-cell${isCellHighlighted ? ' highlighted' : ''}`;
-          // Define the value of the cell
-          const cellValue = cell === 0 ? '' : cell;
-          return (
-            <div
-              key={cellIndex}
-              className={cellClassName}
-              onMouseEnter={() => setHighlightedCell([rowIndex, cellIndex])}
-              onMouseLeave={() => setHighlightedCell([-1, -1])}
-            >
-              {cellValue}
-            </div>
-          );
-        })}
-      </div>
-    );
+  const handleCellClick = (rowIndex: number, colIndex: number, value: number) => {
+    const newMatrix = [...matrix];
+    newMatrix[rowIndex][colIndex] = value;
+    setMatrix(newMatrix);
   };
 
-  // Define a function that renders the Sudoku grid
-  const renderSudoku = () => {
-    return (
-      <div className="sudoku">
-        {sudokuMatrix.map((row, rowIndex) => (
-          <div key={rowIndex}>{renderRow(row, rowIndex)}</div>
-        ))}
-      </div>
-    );
-  };
+  return (
+    <Container maxWidth="md">
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6}>
+          <SudokuBoard matrix={matrix} onCellClick={handleCellClick} />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <NumberPad onClick={(value) => handleCellClick(0, 2, value)} />
+        </Grid>
+      </Grid>
+    </Container>
+  );
+};
 
-  // Render the Sudoku grid inside a container
-  return <div>{renderSudoku()}</div>;
-}
-
-// Export the App component as the default export of this module
 export default App;
