@@ -1,0 +1,183 @@
+stages:
+  - Build
+  - Generate # transfrom included
+  - Solve
+  - Stability
+  - Style
+
+Build with Makefile (5%):
+  stage: Build
+  before_script:
+    - "cp /tmp/$(basename $(readlink -f ../)) platform_env"
+    - source platform_env
+    - git checkout $SHA
+  script:
+    - rm -f generate transform solve *.o
+    - make
+    - "[[ -e generate && -e transform && -e solve ]]"
+  after_script:
+    - source platform_env
+    - curl https://pd2a.imslab.org/updateGrade?token=$TOKEN
+  artifacts:
+    paths:
+      - solve
+      - generate
+      - transform
+      - platform_env
+  except:
+    - pushes
+    - web
+
+Generate problem (10%):
+  stage: Generate
+  dependencies:
+    - Build with Makefile (5%)
+  script:
+    - sudoku-judge -mode=generate -base=`pwd`
+  allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      - crashed
+  except:
+    - pushes
+    - web
+
+Can transform (10%):
+  stage: Generate
+  dependencies:
+    - Build with Makefile (5%)
+  script:
+    - sudoku-judge -mode=transform -base=`pwd` -prob=/home/hty/testfile/transform
+  allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      - crashed
+  except:
+    - pushes
+    - web
+
+Solve lv1 (20%):
+  stage: Solve
+  dependencies:
+    - Build with Makefile (5%)
+  script:
+    - sudoku-judge -mode=solve -base=`pwd` -prob=/home/hty/testfile/solve/all -level=0
+  allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      - crashed
+  except:
+    - pushes
+    - web
+
+Solve lv2 (10%):
+  stage: Solve
+  dependencies:
+    - Build with Makefile (5%)
+  script:
+    - sudoku-judge -mode=solve -base=`pwd` -prob=/home/hty/testfile/solve/all -level=1
+  allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      - crashed
+  except:
+    - pushes
+    - web
+
+Solve lv3 (10%):
+  stage: Solve
+  dependencies:
+    - Build with Makefile (5%)
+  script:
+    - sudoku-judge -mode=solve -base=`pwd` -prob=/home/hty/testfile/solve/all -level=2
+  allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      - crashed
+  except:
+    - pushes
+    - web
+
+Speed lv1 (10%):
+  stage: Solve
+  dependencies:
+    - Build with Makefile (5%)
+  script:
+    - sudoku-judge -mode=speed -base=`pwd` -prob=/home/hty/testfile/speeeed -level=0
+  allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      - crashed
+  except:
+    - pushes
+    - web
+
+Speed lv2 (5%):
+  stage: Solve
+  dependencies:
+    - Build with Makefile (5%)
+  script:
+    - sudoku-judge -mode=speed -base=`pwd` -prob=/home/hty/testfile/speeeed -level=1
+  allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      - crashed
+  except:
+    - pushes
+    - web
+
+Speed lv3 (5%):
+  stage: Solve
+  dependencies:
+    - Build with Makefile (5%)
+  script:
+    - sudoku-judge -mode=speed -base=`pwd` -prob=/home/hty/testfile/speeeed -level=2
+  allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      - crashed
+  except:
+    - pushes
+    - web
+
+Finish normally (10%):
+  stage: Stability
+  dependencies:
+    - Generate problem (10%)
+    - Can transform (10%)
+    - Solve lv1 (20%)
+    - Solve lv2 (10%)
+    - Solve lv3 (10%)
+    - Speed lv1 (10%)
+    - Speed lv2 (5%)
+    - Speed lv3 (5%)
+  script:
+    - ls
+    - "[[ ! -e crashed ]]"
+  allow_failure: true
+  except:
+    - pushes
+    - web
+
+Coding style checking (5%):
+  stage: Style
+  before_script:
+    - source platform_env
+    - git checkout $SHA
+  script:
+    - bash ./.scripts/style.sh
+  after_script:
+    - source platform_env
+    - curl https://pd2a.imslab.org/updateGrade?token=$TOKEN
+  allow_failure: true
+  except:
+    - pushes
+    - web
